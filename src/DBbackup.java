@@ -166,15 +166,18 @@ public class DBbackup {
 
 					// check if the value is not null
 					if (value != null) {
-
+						valueStr = value.toString();
 						// if the domain is not an int put surrounding quotes
-						if (domain.contains("CHAR")) {
+						if (valueStr.contains("\\N") || valueStr.equals(""))
+							valueStr = "null";
+						else if (domain.contains("CHAR")) {
 							valueStr = "\"" + valueStr + "\"";
 							// strange cases
-						} else if (valueStr.contains("\\N") || valueStr.equals(""))
-							valueStr = "null";
-					}
+						}
 
+					} else {
+						valueStr = "null";
+					}
 					builder.append(valueStr + ", ");
 				}
 
